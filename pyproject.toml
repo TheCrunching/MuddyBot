@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/twitch_bot/__main__.py"
+
+[project]
+dynamic = ['version']
+name = "twitch-bot"
+description = "A twitch bot"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["twitch"]
+
+requires-python = ">= 3.8"
+
+#[project.urls]
+#Homepage = "https://example.com"
+#Documentation = "https://example.com"
+#Repository = "https://example.com"
+#Issues = "https://example.com"
+#Changelog = "https://example.com"
+
+[project.scripts]
+twitch-bot = "twitch_bot.__main__:main"
