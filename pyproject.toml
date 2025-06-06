@@ -15,12 +15,11 @@ keywords = ["twitch"]
 
 requires-python = ">= 3.8"
 
-#[project.urls]
-#Homepage = "https://example.com"
-#Documentation = "https://example.com"
-#Repository = "https://example.com"
-#Issues = "https://example.com"
-#Changelog = "https://example.com"
+[project.urls]
+Homepage = "https://github.com/TheCrunching/python-twitch-bot"
+Documentation = "https://github.com/TheCrunching/python-twitch-bot/blob/main/README.md"
+repository = "https://github.com/TheCrunching/python-twitch-bot"
+Changelog = "https://github.com/TheCrunching/python-twitch-bot/blob/main/CHANGELOG.md"
 
 [project.scripts]
 twitch-bot = "twitch_bot.__main__:main"
