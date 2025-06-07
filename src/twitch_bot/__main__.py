@@ -2,25 +2,35 @@
 
 """Python twitch bot."""
 
-from pathlib import Path
-from os import mkdir
-from datetime import datetime
-from json import load, dump
-from argparse import ArgumentParser
+# Standard library imports
+import sys
 import logging
+import tomllib
+from os import mkdir
+from pathlib import Path
+from datetime import datetime
+from argparse import ArgumentParser
+
+# Twitch API module import
 from twitchio.ext import commands
 
-__version__ = "0.1.1+snapshot25w23a"
+__version__ = "0.1.2+snapshot25w23b"
 __data_dir__ = Path(Path.home(), ".twbot/")
 if not Path(__data_dir__).exists():
     mkdir(Path(Path.home()))
 
-__log_file__ = Path(__data_dir__, "log.txt")
+__log_file__ = Path(__data_dir__, "twbot.log")
+try:
+    __log_file__.unlink()# Delete the log file.
+except FileNotFoundError:
+    pass# We don't care if it's not their since we were deleting it anyway
 
-loggingFormat = "[%(asctime)s] %(levelname)s: \"%(message)s\""
-loggingDateFormat = "%Y-%m-%d %H:%M:%S"
+__command_file__ = Path(__data_dir__, "commands.json")# The file to store commands in
+
+LOGGING_FORMAT = "[%(asctime)s] %(levelname)s: \"%(message)s\""
+LOGGING_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 logger = logging.getLogger(__name__)# Set up logger object
-formatter = logging.Formatter(fmt=loggingFormat, datefmt=loggingDateFormat)# Set up formatter object
+formatter = logging.Formatter(fmt=LOGGING_FORMAT, datefmt=LOGGING_DATE_FORMAT)# Set up formatter
 fileHandler = logging.FileHandler(__log_file__)# Set up file handler
 fileHandler.setFormatter(formatter)# Add the formatter
 logger.addHandler(fileHandler)# Add it to logger
@@ -32,28 +42,40 @@ if __debug__:
 else:
     logger.level = logging.INFO
 
+# Set up logger for twitch chat
+chatLogger = logging.getLogger(__name__)
+chatFileHandler = logging.FileHandler(Path(__data_dir__, f"chat-{datetime.today().strftime('%Y-%m-%d')}.log"))
+chatFileHandler.setFormatter(logging.Formatter(fmt="[%(asctime)s] %(message)s", datefmt=LOGGING_DATE_FORMAT))
+chatLogger.addHandler(chatFileHandler)
+chatLogger.level = logging.INFO
+
+parser = ArgumentParser(
+    prog="Twitch bot",
+    description="A twitch bot for Mud Flaps (twitch.tv/mud_flaps123)",
+    epilog="..."
+)
+parser.add_argument("-v", "--version", action="version", version=__version__, help="Displays the programs version :)")
+args = parser.parse_args()# Parse the args
+logger.debug(f"Parsed the command line arguments: '{args}'")# Log them
+
+
 time = datetime.now()
 
-logger.info(f"We are online at: \"{time}\"")
-
-parser = ArgumentParser(prog="Twitch bot", description="A twitch bot for Mud Flaps (twitch.tv/mud_flaps123)", epilog="...")
-parser.add_argument("-v", "--version", action="version", version=__version__, help="Displays the programs version :)")
-parser.add_argument("-a", "--add", help="Not implemented.")
-args = parser.parse_args()
-logger.debug(f"Parsed the command line arguments: \"{args}\"")
+logger.info(f"We are online at: '{time}'")
 
 class Bot(commands.Bot):
-    def __init__(self, token, word):
+    def __init__(self, token, word, channel):
         # Initialise our Bot with our access token, prefix and a list of channels to join on boot...
         # prefix can be a callable, which returns a list of strings or a string...
         # initial_channels can also be a callable which returns a list of strings...
         self.word = word
-        super().__init__(token=token, prefix=['c!', "!"], initial_channels=['mud_flaps123'])
+        self.search_word = False
+        super().__init__(token=token, prefix=['c!', "!"], initial_channels=channel)
 
     async def event_ready(self):
         # Notify us when everything is ready!
         # We are logged in and ready to chat and use commands...
-        logger.debug(f"Logged in as \"{self.nick}\" with id \"{self.user_id}\"")
+        logger.debug(f"Logged in as '{self.nick}' with id '{self.user_id}'")
         print(f'Logged in as | {self.nick}')
         print(f'User id is | {self.user_id}')
 
@@ -61,15 +83,19 @@ class Bot(commands.Bot):
         # Messages with echo set to True are messages sent by the bot...
         # For now we just want to ignore them...
         if message.echo:
+            logger.debug(f"Bot sent: {message.content}")
+            chatLogger.info(f"notmud_flaps123: {message.content}")
             return
 
         # Print the contents of our message to console...
+        chatLogger.info(f"{message.author.name}: {message.content}")
         logger.debug(f"{message.author.name}: {message.content}")
-        for a in message.content.split(" "):
-            print(a)
-            logger.debug(f"Word: {a}")
-            if a.lower() == self.word.lower():
-                print(f"{message.author.name} correctly guessed: \"{self.word}\"")
+        if (self.word is not None) and (self.search_word):
+            for a in message.content.split(" "):
+                print(a)
+                logger.debug(f"Word: {a}")
+                if a.lower() == self.word.lower():
+                    print(f"{message.author.name} correctly guessed: '{self.word}'")
 
         # Since we have commands and are overriding the default `event_message`
         # We must let the bot know we want to handle and invoke our commands...
@@ -81,7 +107,7 @@ class Bot(commands.Bot):
 
     @commands.command()
     async def help(self, ctx: commands.Context):
-        await ctx.send("Commands: c!hello, c!help, c!online, !unlurk, !wordsOnStream")# Help command
+        await ctx.send("Commands: c!hello, c!help, c!online, !unlurk, !wordsOnStream, !send_love <person>. Moderator only: c!start_word, c!stop_word")# Help command
 
     @commands.command()
     async def online(self, ctx: commands.Context):
@@ -89,7 +115,7 @@ class Bot(commands.Bot):
 
     @commands.command()
     async def unlurk(self, ctx: commands.Context):
-        await ctx.reply(f"{ctx.author.name} has unlurked themselves :)")
+        await ctx.send(f"{ctx.author.name} has unlurked themselves :)")
 
     @commands.command()
     async def song(self, ctx: commands.Context):
@@ -103,22 +129,66 @@ class Bot(commands.Bot):
     async def boop(self, ctx: commands.Context):
         await ctx.reply(f"{ctx.author.name} was booped! HAHAHA.")
 
+    @commands.command()
+    async def start_word(self, ctx: commands.Context):
+        if ctx.author.is_mod or ctx.author.is_broadcaster:
+            if self.word is None:
+                logger.error("Can't start words on stream cause word is None")
+                await ctx.reply("Error, can't start words on stream cause word is not set :(")
+                return
+            self.search_word = True
+            await ctx.reply(f"{ctx.author.name} started words on stream")
+        else:
+            await ctx.reply(f"{ctx.author.name} you can't do that :(")
+
+    @commands.command()
+    async def stop_word(self, ctx: commands.Context):
+        if ctx.author.is_mod or ctx.author.is_broadcaster:
+            self.search_word = False
+            await ctx.reply(f"{ctx.author.name} stopped words on stream")
+        else:
+            await ctx.reply(f"{ctx.author.name} you can't do that :(")
+
+    @commands.command()
+    async def send_love(self, ctx: commands.Context, person: str):
+        await ctx.send(f"{ctx.author.name} is sending {person} a whole lot of love <3")
+
 def main():
-    config_file = Path(__data_dir__, "config.json")
-    if not config_file.exists():
-        with open(config_file, "w", encoding="UTF-8") as fp:
-            dump({"token": "SET_TOKEN"}, fp, indent=4)
-        print(f"Set 'token' to your twitch OAUTH token in {config_file}")
-    else:
-        with open(config_file, "r", encoding="UTF=8") as fp:
-            config = load(fp)
-        try:
-            word = config['word']
-        except KeyError:
-            word = "                                                                               "
-        logger.debug(f"Word is: \"{word}\"")
-        bot = Bot(config['token'], word)
+    """This is just the main function :)"""
+    config_file = Path(__data_dir__, "config.toml")
+    try:
+        with open(config_file, "rb") as fp:
+            config = tomllib.load(fp)
+            try:
+                token = config['token']
+            except KeyError:
+                logger.error("OAUTH token not set.")
+                print("OAUTH token not set.")
+                sys.exit(1)
+            try:
+                channel = config['channel']
+                logger.debug(channel)
+            except KeyError:
+                logger.error("Channel must be set.")
+                print("You must set the channel in the config file.")
+                sys.exit(1)
+            try:
+                word = config['word']
+                logger.debug(word)
+            except KeyError:
+                logging.info("Word not in config file. Defaulting to 'None'")
+                word = None
+    except FileNotFoundError:
+        logger.critical(f"Config file: '{config_file}' not found.")
+        print(f"Config file: '{config_file}' not found.")
+        sys.exit(1)
+
+    try:
+        bot = Bot(token, word, channel)
         bot.run()
+    except KeyboardInterrupt:
+        print("Ctrl+c pressed, exiting...")
+        sys.exit()
 
 if __name__ == "__main__":
     main()
