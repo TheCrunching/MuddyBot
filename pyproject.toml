@@ -10,10 +10,33 @@ dynamic = ['version']
 name = "twitch-bot"
 description = "A twitch bot"
 readme = "README.md"
-license = {file = "LICENSE"}
-keywords = ["twitch"]
-
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["twitch", "chat", "bot"]
 requires-python = ">= 3.8"
+dependencies = [
+    "twitchio==2.10.0"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Framework :: AsyncIO",
+    "Framework :: Hatch",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Topic :: File Formats :: JSON",
+    "Topic :: System :: Logging",
+    "Typing :: Typed"
+]
+authors = [
+  {name = "TheCrunching", email = "thecrunching@proton.me"}
+]
+maintainers = [
+  {name = "TheCrunching", email = "thecrunching@proton.me"}
+]
 
 [project.urls]
 Homepage = "https://github.com/TheCrunching/python-twitch-bot"
