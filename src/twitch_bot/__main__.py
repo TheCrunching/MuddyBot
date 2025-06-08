@@ -28,30 +28,6 @@ parser.add_argument(
 args = parser.parse_args()# Parse the args
 logger.debug("Parsed the command line arguments: '%s'", args)# Log them
 
-    @commands.command()
-    async def start_word(self, ctx: commands.Context):
-        if ctx.author.is_mod or ctx.author.is_broadcaster:
-            if self.word is None:
-                logger.error("Can't start words on stream cause word is None")
-                await ctx.reply("Error, can't start words on stream cause word is not set :(")
-                return
-            self.search_word = True
-            await ctx.reply(f"{ctx.author.name} started words on stream")
-        else:
-            await ctx.reply(f"{ctx.author.name} you can't do that :(")
-
-    @commands.command()
-    async def stop_word(self, ctx: commands.Context):
-        if ctx.author.is_mod or ctx.author.is_broadcaster:
-            self.search_word = False
-            await ctx.reply(f"{ctx.author.name} stopped words on stream")
-        else:
-            await ctx.reply(f"{ctx.author.name} you can't do that :(")
-
-    @commands.command()
-    async def send_love(self, ctx: commands.Context, person: str):
-        await ctx.send(f"{ctx.author.name} is sending {person} a whole lot of love <3")
-
 def main():
     """This is just the main function :)"""
     try:
