@@ -1,6 +1,6 @@
 # A twitch bot
 
-This is a twitch bot I made for Mud Flaps!
+This is a twitch bot I made for [MudFlaps](https://discord.com/invite/mudflaps).
 
 ## Building
 
@@ -12,4 +12,4 @@ Install with `pip install .` or to install a specific version do `pip install di
 
 ## Usage
 
-To start, run `twitch-bot`. You will need to put your OAUTH token in ***~/.twbot/config.json***. Under the "token" field.
+To start, run `twitch-bot`. You will need to put your OAUTH token in ***~/.twbot/config.toml***. Under the "token" field.

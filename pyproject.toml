@@ -15,7 +15,8 @@ license-files = ["LICENSE"]
 keywords = ["twitch", "chat", "bot"]
 requires-python = ">= 3.8"
 dependencies = [
-    "twitchio==2.10.0"
+    "twitchio==2.10.0",
+    "cryptography"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
