@@ -8,7 +8,7 @@ import logging
 from twitchio.ext import commands
 
 # Crypto module
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 
 from .files import CHAT_LOG_FILE
 from .logger import logger, LOGGING_DATE_FORMAT
@@ -29,16 +29,14 @@ class TwitchBot(commands.Bot):
     """This is are twitch bot!
     """
     def __init__(self, token, channel, key):
-        # Initialise our Bot with our access token, prefix and a list of channels to join on boot...
-        # prefix can be a callable, which returns a list of strings or a string...
-        # initial_channels can also be a callable which returns a list of strings...
-        self.word = None
-        self.search_word = False
+        self.word = None# Set the word as None cause we have not set it yet.
+        self.search_word = False# We don't want to start off by searching for the word.
 
         self.time = datetime.now()
         self.key = key
         logger.info("We are online at: '%s'", self.time)
 
+        # Initialise our Bot with our access token, prefix and a list of channels to join on boot...
         super().__init__(token=token, prefix=['c!', "!"], initial_channels=channel)
 
     async def event_ready(self):
@@ -57,9 +55,8 @@ class TwitchBot(commands.Bot):
             message (_type_): The message object that was sent
         """
 
-        if message.echo:# Messages with echo set to True are messages sent by the bot...
-            logger.debug("Bot sent: '%s'", message.content)
-            chatLogger.info("notmud_flaps123: %s", message.content)
+        if message.echo:# Messages with echo set to True are messages sent by the bot
+            chatLogger.info("%s: %s", self.nick, message.content)
             return
 
         # Print the contents of our message to console...
@@ -70,7 +67,9 @@ class TwitchBot(commands.Bot):
                 print(a)
                 logger.debug("Word: %s", a)
                 if a.lower() == self.word.lower():
-                    await self.connected_channels[0].send(f"{message.author.name} correctly guessed: '{self.word}'")
+                    await self.connected_channels[0].send(
+                        f"{message.author.name} correctly guessed: '{self.word}'"
+                    )
                     self.search_word = False
         # Since we have commands and are overriding the default `event_message`
         # We must let the bot know we want to handle and invoke our commands...
@@ -88,7 +87,7 @@ class TwitchBot(commands.Bot):
         """Implements the c!help/!help command, help messages are a must have.
         """
 
-        await ctx.send("Commands: c!hello, c!help, c!status, !unlurk, !wordsOnStream, !send_love <person>, c!mud_curses. Moderator only: c!start_word, c!stop_word")# Help command
+        await ctx.send("Commands: c!hello, c!help, c!status, !unlurk, !send_love <person>, c!mud_curses. Moderator only: c!start_word, c!stop_word, Admin only: c!set_word <word> (encrypted ofc)")# Help command
 
     @commands.command()
     async def status(self, ctx: commands.Context):
@@ -112,18 +111,11 @@ class TwitchBot(commands.Bot):
         await ctx.reply("Turns out the !song command does not work :(")
 
     @commands.command()
-    async def wordleonwheels(self, ctx: commands.Context):
-        """Implements the c!wordleonwheels/!wordleonwheels command, may take out in the future
-        """
-
-        await ctx.reply("Words on stream is what we do every 30 minutes where the chatters try to guess a word! Guess the word spin the wheel!")
-
-    @commands.command()
     async def start_word(self, ctx: commands.Context):
         """Implements the c!start_word/!start_word command, this is the main purpose of this bot and is why I made it.
         """
 
-        if ctx.author.is_mod or ctx.author.is_broadcaster or (ctx.author.name == "thecrunching123"):
+        if ctx.author.is_mod or ctx.author.is_broadcaster or ((ctx.author.name == "thecrunching123") and __debug__):
             if self.word is None:
                 logger.error("Can't start words on stream cause word is None")
                 await ctx.reply("Error, can't start words on stream cause word is not set :(")
@@ -142,17 +134,17 @@ class TwitchBot(commands.Bot):
         """Implements the c!stop_word/!stop_word command, this is the main purpose of this bot and is why I made it.
         """
 
-        if ctx.author.is_mod or ctx.author.is_broadcaster or (ctx.author.name == "thecrunching123"):
+        if ctx.author.is_mod or ctx.author.is_broadcaster or ((ctx.author.name == "thecrunching123") and __debug__):
             if self.search_word:
                 self.search_word = False
                 await ctx.reply(f"{ctx.author.name} stopped words on stream")
             else:
-                await ctx.reply(f"Words on stream was already stopped")
+                await ctx.reply("Words on stream was already stopped")
         else:
             await ctx.reply(f"{ctx.author.name} you can't do that :(")
 
     @commands.command()
-    async def send_love(self, ctx: commands.Context, person: str):
+    async def send_love(self, ctx: commands.Context, person: str = "Everyone"):
         """Implements c!send_love/!send_love. "I just wanna use your love tonight"
         """
 
@@ -166,13 +158,21 @@ class TwitchBot(commands.Bot):
         await ctx.send("This is the clip where Mud cursed :) https://www.twitch.tv/mud_flaps123/clip/SuccessfulFineMarjoramAMPTropPunch-OYgRM7gAVs1L3H-q clipped by: https://www.twitch.tv/chunckly")
 
     @commands.command()
-    async def set_word(self, ctx: commands.Context, word: str):
+    async def set_word(self, ctx: commands.Context, word: str = None):
         """Get word into the program"""
 
-        if ctx.author.is_broadcaster or (ctx.author.name == "thecrunching123"):
-            self.word = await decrypt(word, self.key)
-            await ctx.send(f"{ctx.author.name} set the word for words on stream :)")
-            logger.debug(self.word)
+        if ctx.author.is_broadcaster or ((ctx.author.name == "thecrunching123") and __debug__):# Will only let crunching do admin commands if __debug__ is true
+            if word is not None:
+                try:
+                    self.word = await decrypt(word, self.key)
+                except InvalidToken:
+                    await ctx.reply("Invalid text :) try again.")
+                    return None
+                await ctx.send(f"{ctx.author.name} set the word for words on stream :)")
+                logger.debug(self.word)
+            else:
+                logger.warning("User tried to set word without specify text.")
+                await ctx.reply("RIP you failed forgot to add the text to the command :(")
         else:
             ctx.reply(f"{ctx.author.name} you do not have permission for that :(")
 

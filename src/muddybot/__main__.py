@@ -11,7 +11,7 @@ from .files import CONFIG_FILE
 from .twitch_bot import TwitchBot
 from .logger import logger
 
-__version__ = "0.1.3+snapshot25w24a"
+__version__ = "1.0.0+pre1"
 
 parser = ArgumentParser(
     prog="Twitch bot",
@@ -26,7 +26,6 @@ parser.add_argument(
     help="Displays the programs version :)"
 )
 args = parser.parse_args()# Parse the args
-logger.debug("Parsed the command line arguments: '%s'", args)# Log them
 
 def main():
     """This is just the main function :)"""
@@ -57,12 +56,8 @@ def main():
         print(f"Config file: '{CONFIG_FILE}' not found.")
         sys.exit(1)
 
-    try:
-        bot = TwitchBot(token, channel, key)
-        bot.run()
-    except KeyboardInterrupt:
-        print("Ctrl+c pressed, exiting...")
-        sys.exit()
+    bot = TwitchBot(token, channel, key)
+    bot.run()
 
 if __name__ == "__main__":
     main()
