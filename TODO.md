@@ -2,13 +2,13 @@
 
 This is a simple twitch bot to handle wordle on wheels for [mudflaps](https://twitch.tv/mud_flaps123)
 
-### Todo
+## Todo
 
-### In progress
+## In progress
 
 - [ ] Release version 1.0.0
 
-### Completed
+## Completed
 
 - [x] Make documentation for the project
 - [x] Change the name of the bot

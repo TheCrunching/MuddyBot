@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Generates encryption key for muddybot"""
+
 from cryptography.fernet import Fernet
 
 def main():

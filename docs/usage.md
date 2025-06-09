@@ -4,13 +4,13 @@ This document describes how to use MuddyBot.
 
 ## Installing
 
-To install download the ***.whl*** file for the latest version. After than run `pip install .fileyoudownloaded`. Now you can run the program as `muddybot`.
+To install download the ***.whl*** file for the latest version. After than run `pip install .FileYouDownloaded`. Now you can run the program as `muddybot`.
 
 But before you do that we need to set some config stuff up.
 
 ## Configuration
 
-The configuration for MuddyBot is stored in ***~/.muddybot/muddy_config.toml***.
+The configuration for MuddyBot is stored in ***~/.muddybot/config.toml***.
 
 The configuration file should look like this:
 
@@ -32,7 +32,7 @@ The channel field is a list of channels the bot should listen to. Their must be 
 
 ### Key
 
-The key field holds the encryption key for securlly getting the word to the bot from twitch chat. You can get your own key by running `muddybot-key`, after that put the value it printed to the terminal in your config file.
+The key field holds the encryption key for securely getting the word to the bot from twitch chat. You can get your own key by running `muddybot-key`, after that put the value it printed to the terminal in your config file.
 
 ## Commands
 

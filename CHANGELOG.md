@@ -2,6 +2,15 @@
 
 ## [1.0.0] - TBD
 
+## [1.0.0-rc1] - 2025-06-09
+
+If no major bugs are found in this update it will become version 1.0.0.
+
+### Changed
+
+- The config file is now once again called config.toml
+- Changed the logging message format
+
 ## [1.0.0+pre2] - 2025-06-09
 
 This is the second prerelease of version [1.0.0](#100---tbd)!

@@ -11,7 +11,7 @@ from .files import CONFIG_FILE
 from .twitch_bot import TwitchBot
 from .logger import logger
 
-__version__ = "1.0.0+pre2"
+__version__ = "1.0.0-rc1"
 
 parser = ArgumentParser(
     prog="MuddyBot",
@@ -59,7 +59,7 @@ def main():
     bot = TwitchBot(token, channel, key)
     bot.run()
 
-    return 0# ? Are installer script will handle exiting.
+    return 0# ? Our installer script will handle exiting.
 
 if __name__ == "__main__":
     main()

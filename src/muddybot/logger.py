@@ -4,7 +4,7 @@
 import logging
 from .files import LOG_FILE
 
-LOGGING_FORMAT = "[%(asctime)s] %(levelname)s: \"%(message)s\""# ? The format for the logging msg
+LOGGING_FORMAT = "%(asctime)s [%(levelname)s]: \"%(message)s\""# ? The format for the logging msg
 LOGGING_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"# ? The format for the date in the logging message
 
 logger = logging.getLogger(__name__)# Get the logger

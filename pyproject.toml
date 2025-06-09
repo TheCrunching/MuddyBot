@@ -12,7 +12,7 @@ description = "A twitch bot that is mainly used to find a word in twitch chat :)
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-keywords = ["twitch", "chat", "bot"]
+keywords = ["twitch", "chat", "bot", "word"]
 requires-python = ">= 3.8"
 dependencies = [
     "twitchio==2.10.0",

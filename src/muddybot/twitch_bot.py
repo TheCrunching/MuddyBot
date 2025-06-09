@@ -120,7 +120,7 @@ class TwitchBot(commands.Bot):
                 logger.error("Can't start words on stream cause word is None")
                 await ctx.reply("Error, can't start words on stream cause word is not set :(")
                 return
-            
+
             if self.search_word:
                 await ctx.reply("Words on stream already started so can't stop.")
             else:
