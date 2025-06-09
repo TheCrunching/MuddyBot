@@ -11,7 +11,7 @@ from .files import CONFIG_FILE
 from .twitch_bot import TwitchBot
 from .logger import logger
 
-__version__ = "1.0.0-rc1"
+__version__ = "1.0.0"
 
 parser = ArgumentParser(
     prog="MuddyBot",
