@@ -2,6 +2,8 @@
 
 ## [1.0.0] - 2025-06-09
 
+Forgot to put stuff here before I committed. LOL. No change from [1.0.0-rc1](#100-rc1---2025-06-09)
+
 ## [1.0.0-rc1] - 2025-06-09
 
 If no major bugs are found in this update it will become version 1.0.0.
