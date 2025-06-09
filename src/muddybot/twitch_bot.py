@@ -174,7 +174,7 @@ class TwitchBot(commands.Bot):
                 logger.warning("User tried to set word without specify text.")
                 await ctx.reply("RIP you failed forgot to add the text to the command :(")
         else:
-            ctx.reply(f"{ctx.author.name} you do not have permission for that :(")
+            await ctx.reply(f"{ctx.author.name} you do not have permission for that :(")
 
 async def decrypt(text, key) -> str:
     """Decrypts the message

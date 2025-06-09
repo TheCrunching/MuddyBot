@@ -2,6 +2,19 @@
 
 ## [1.0.0] - TBD
 
+## [1.0.0+pre2] - 2025-06-09
+
+This is the second prerelease of version [1.0.0](#100---tbd)!
+
+### Changed
+
+- Changed my email in pyproject.toml it was the wrong email LOL.
+
+### Added
+
+- Added a script `muddybot-key` to generate an encryption key.
+- Added documentation
+
 ## [1.0.0+pre1] - 2025-06-08
 
 This is our first prerelease of version [1.0.0](#100---tbd). Also because of the way we committed code last time [0.1.3](#013snapshot25w24a---2025-06-08)'s code was a little corrupt.
@@ -88,3 +101,4 @@ _Initial release_
 [0.1.2+snapshot25w23b]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v0.1.2+snapshot25w23b
 [0.1.3+snapshot25w24a]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v0.1.3+snapshot25w24a
 [1.0.0+pre1]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.0+pre1
+[1.0.0+pre2]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.0+pre2

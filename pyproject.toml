@@ -31,17 +31,20 @@ classifiers = [
     "Typing :: Typed"
 ]
 authors = [
-  {name = "TheCrunching", email = "thecrunching@proton.me"}
+  {name = "TheCrunching", email = "theCrunching@proton.me"}
 ]
 maintainers = [
-  {name = "TheCrunching", email = "thecrunching@proton.me"}
+  {name = "TheCrunching", email = "theCrunching@proton.me"}
 ]
 
 [project.urls]
 Homepage = "https://github.com/TheCrunching/python-twitch-bot"
-Documentation = "https://github.com/TheCrunching/python-twitch-bot/blob/main/README.md"
-repository = "https://github.com/TheCrunching/python-twitch-bot"
+Download = "https://github.com/TheCrunching/MuddyBot/releases"
 Changelog = "https://github.com/TheCrunching/python-twitch-bot/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/TheCrunching/python-twitch-bot/blob/main/README.md"
+Bug = "https://github.com/TheCrunching/MuddyBot/issues"
+repository = "https://github.com/TheCrunching/python-twitch-bot"
 
 [project.scripts]
 muddybot = "muddybot.__main__:main"
+muddybot-key = "muddybot.gen_key:main"

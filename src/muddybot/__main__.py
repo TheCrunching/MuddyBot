@@ -11,10 +11,10 @@ from .files import CONFIG_FILE
 from .twitch_bot import TwitchBot
 from .logger import logger
 
-__version__ = "1.0.0+pre1"
+__version__ = "1.0.0+pre2"
 
 parser = ArgumentParser(
-    prog="Twitch bot",
+    prog="MuddyBot",
     description="A twitch bot for Mud Flaps (twitch.tv/mud_flaps123)",
     epilog="..."
 )
@@ -58,6 +58,8 @@ def main():
 
     bot = TwitchBot(token, channel, key)
     bot.run()
+
+    return 0# ? Are installer script will handle exiting.
 
 if __name__ == "__main__":
     main()
