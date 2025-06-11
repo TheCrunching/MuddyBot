@@ -76,6 +76,10 @@ Prints a url to the clip where Mud Flaps cursed. Cause why not?
 
 Sets the word for words on stream. The word must be encrypted with the same encryption key the program is using.
 
+### c!find_matches pattern
+
+Finds how many words match the specified pattern. The pattern has the letters you know and the letters you don't as '_'. eg (a_ple) would match apple.
+
 ## Words on stream
 
 Words on stream is something Mud Flaps does in his stream. Every 30 minutes he reveals a letter and his chat has to guess the word. This bot was made to help with that and find the word. You use `c!start_word` to start words on stream and `c!stop_word` to stop words on stream. If the user correctly guess's the word the bot will alert the user that they guessed it correctly and stop words on stream.

@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.0.1+snapshot25w25a] - 2025-06-11
+
+We our releasing next weeks snapshot a little earlier because of some concerns [Amie](https://www.twitch.tv/amie_k777)
+
+### Changed
+
+- Changed the unlurk message and also allows users to unlurk others
+- Now we log the bots chats again
+
+### Added
+
+- ~~Now checks if message contains hello or hi and says welcome~~
+- Added c!find_matches command
+
+### Removed
+
+- Removed c!hello command
+- Removed --version option since that was kinda redundant
+- Removed unnecessary `if __name__ == "__main__:` since I never used them
+- Removed the c!mud_curses command
+- Removed the c!send_love command
+- Removed the !song command
+
 ## [1.0.0] - 2025-06-09
 
 Forgot to put stuff here before I committed. LOL. No change from [1.0.0-rc1](#100-rc1---2025-06-09)
@@ -15,7 +38,7 @@ If no major bugs are found in this update it will become version 1.0.0.
 
 ## [1.0.0+pre2] - 2025-06-09
 
-This is the second prerelease of version [1.0.0](#100---2025-06-10)!
+This is the second prerelease of version [1.0.0](#100---2025-06-09)!
 
 ### Changed
 
@@ -28,7 +51,7 @@ This is the second prerelease of version [1.0.0](#100---2025-06-10)!
 
 ## [1.0.0+pre1] - 2025-06-08
 
-This is our first prerelease of version [1.0.0](#100---2025-06-10). Also because of the way we committed code last time [0.1.3](#013snapshot25w24a---2025-06-08)'s code was a little corrupt.
+This is our first prerelease of version [1.0.0](#100---2025-06-09). Also because of the way we committed code last time [0.1.3](#013snapshot25w24a---2025-06-08)'s code was a little corrupt.
 
 ### Changed
 

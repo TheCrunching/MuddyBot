@@ -10,12 +10,11 @@
 """
 
 from pathlib import Path
-from os import mkdir
 from datetime import datetime
 
 DATA_DIR = Path(Path.home(), ".muddybot/")
-if not Path(DATA_DIR).exists():
-    mkdir(DATA_DIR)
+if not DATA_DIR.exists():
+    DATA_DIR.mkdir()
 
 LOG_FILE = Path(DATA_DIR, "muddybot.log")
 CHAT_LOG_FILE = Path(DATA_DIR, f"chat-{datetime.today().strftime('%Y-%m-%d')}.log")
