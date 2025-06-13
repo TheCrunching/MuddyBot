@@ -1,13 +1,22 @@
 # Changelog
 
+## [1.0.2+snapshot25w25b] - 2025-06-16
+
+This is our first official snapshot for week 25!
+
+### Fixed
+
+- Now it sends the message in the channel the user spoke in not the first channel in the list
+
 ## [1.0.1+snapshot25w25a] - 2025-06-11
 
-We our releasing next weeks snapshot a little earlier because of some concerns [Amie](https://www.twitch.tv/amie_k777)
+We our releasing next weeks snapshot a little earlier because of some concerns [Amie](https://www.twitch.tv/amie_k777) had.
 
 ### Changed
 
 - Changed the unlurk message and also allows users to unlurk others
 - Now we log the bots chats again
+- The bot in most circumstances mentions the user now
 
 ### Added
 

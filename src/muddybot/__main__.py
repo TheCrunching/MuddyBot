@@ -10,7 +10,7 @@ from .files import CONFIG_FILE
 from .twitch_bot import TwitchBot
 from .logger import logger
 
-__version__ = "1.0.1+snapshot25w25a"
+__version__ = "1.0.2+snapshot25w25b"
 
 parser = ArgumentParser(
     prog="MuddyBot",

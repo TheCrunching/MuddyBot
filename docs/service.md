@@ -27,7 +27,7 @@ To install download the one of the `.whl` files from the github repository.
 
 ```bash
 curl -o muddybot.whl https://github.com/TheCrunching/MuddyBot/raw/refs/tags/v1.0.0/dist/muddybot-1.0.0-py3-none-any.whl # Download the whl file
-pip install .muddybot.whl # Install with pip
+pip install ./muddybot.whl # Install with pip
 ```
 
 The first command downloads the wheel file in this case version 1.0.0. The second command installs MuddyBot using the downloaded wheel file.
@@ -70,7 +70,7 @@ My system file looked like this.
 
 ```ini
 [Unit]
-Description=A twitch bot.
+Description=A twitch bot
 
 [Service]
 ExecStart=/usr/bin/python3 /home/muddybot/.local/bin/muddybot

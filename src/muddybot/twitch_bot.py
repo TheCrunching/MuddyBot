@@ -42,6 +42,7 @@ class TwitchBot(commands.Bot):
 
     async def event_ready(self):
         """Called when bot is ready"""
+        print(self.connected_channels)
         logger.debug("Logged in as '%s' with id '%s'", self.nick, self.user_id)
 
     async def event_message(self, message):
@@ -58,15 +59,15 @@ class TwitchBot(commands.Bot):
             for a in message.content.split(" "):
                 logger.debug("Word: %s", a)
                 if a.lower() == self.word.lower():
-                    await self.connected_channels[message.channel].send(
-                        f"{message.author.mention} correctly guessed: '{self.word}'"
+                    await message.channel.send(
+                        f"{message.author.mention} correctly guessed: '{self.word}"
                     )
                     self.search_word = False
 
         # Check if user is saying Historic
         if message.first:
-            await self.connected_channels[message.channel].send(
-                f"Welcome {message.author.mention}, we our glad you are here :)"
+            await message.channel.send(
+                f"Welcome {message.author.mention}, we are glad you are here :)"
             )
 
         # Since we have commands and are overriding the default `event_message`
@@ -150,6 +151,7 @@ class TwitchBot(commands.Bot):
 
     @commands.command()
     async def find_matches(self, ctx: commands.Context, word: str = None):
+        """Implements the c!find_matches command"""
         if word is None:
             await ctx.reply("You must pass a string to match, eg __pl_")
         else:
