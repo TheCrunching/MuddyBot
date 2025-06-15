@@ -9,7 +9,7 @@ LOGGING_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"# ? The format for the date in the logg
 
 logger = logging.getLogger(__name__)# Get the logger
 formatter = logging.Formatter(fmt=LOGGING_FORMAT, datefmt=LOGGING_DATE_FORMAT)# Set the formatter
-fileHandler = logging.FileHandler(LOG_FILE, encoding="UTF-8", mode="w")# Set up file handler, were using write mode here so it overwrites the file if it already exists
+fileHandler = logging.FileHandler(LOG_FILE, encoding="UTF-8")# Set up file handler, were using write mode here so it overwrites the file if it already exists
 fileHandler.setFormatter(formatter)# Add the formatter
 logger.addHandler(fileHandler)# Add it to logger
 

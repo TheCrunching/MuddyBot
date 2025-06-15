@@ -56,6 +56,8 @@ For ExecStart you will have to put the location of your MuddyBot executable whic
 ```ini
 [Unit]
 Description=A twitch bot.
+After=systemd-networkd-wait-online.service
+Wants=systemd-networkd-wait-online.service
 
 [Service]
 ExecStart=/usr/bin/python3 # Put your muddybot location here
@@ -70,16 +72,20 @@ My system file looked like this.
 
 ```ini
 [Unit]
-Description=A twitch bot
+Description=A twitch bot.
+After=systemd-networkd-wait-online.service
+Wants=systemd-networkd-wait-online.service
 
 [Service]
-ExecStart=/usr/bin/python3 /home/muddybot/.local/bin/muddybot
+ExecStart=/home/muddybot/venv/bin/python3.11 /home/muddybot/venv/bin/muddybot # I was running in a venv so my python path is in the venv
 User=muddybot
 Group=muddybot
 
 [Install]
 WantedBy=multi-user.target
 ```
+
+Also you might have to run `systemctl enable systemd-networkd.service systemd-networkd-wait-online.service` to enable the network wait service.
 
 ## Service creation
 

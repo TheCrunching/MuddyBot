@@ -24,7 +24,7 @@ If you are running in non debug mode set the "PYTHONOPTIMIZE" environment variab
 
 ### Token
 
-You can get a token using this website [Twitch Token Generator](https://twitchtokengenerator.com/). You must keep this a secret. If you share other people will be able to use your bot.
+You can get a token using this website [Twitch Token Generator](https://twitchtokengenerator.com/). You must keep this a secret. If you share it other people will be able to use your user.
 
 ### Channel
 
@@ -40,10 +40,6 @@ This section describes the available commands for the twitch bot.
 
 All commands can be called `c!command` or `!command` it is up to the user to decide on which to use.
 
-### c!hello
-
-This command can be run by anyone and return **Hello {user}!**.
-
 ### c!help
 
 This command prints a help message of available commands.
@@ -56,21 +52,9 @@ This commands prints the uptime of the program.
 
 This command unlurks the user. I was always annoyed their was never a unlurk command in [Mud Flaps twitch chat](https://twitch.tv/mud_flaps123), so I made one.
 
-### c!song
-
-This command alerts the user that the `!song` command does not work.
-
 ### c!start_word and c!stop_word
 
 c!start_word and c!stop_word start and stop words on stream respectfully. These commands can only be run by the broadcaster or a moderator. See [Words on stream](#words-on-stream).
-
-### c!send_love person
-
-This command sends love's to the specified person.
-
-### c!mud_curses
-
-Prints a url to the clip where Mud Flaps cursed. Cause why not?
 
 ### c!set_word word
 

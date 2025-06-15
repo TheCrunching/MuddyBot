@@ -1,12 +1,27 @@
 # Changelog
 
-## [1.0.2+snapshot25w25b] - 2025-06-16
+This is the MuddyBot project changelog! Also the way I version is confusing so its not your fault its mine.
+
+## [1.0.2+snapshot25w25b] - 2025-06-15
 
 This is our first official snapshot for week 25!
+
+In retrospect I should have changed the name of last weeks snapshot but the past is in the past.
+
+### Changed
+
+- Now append log messages to the log file
+- Now shows date and time in UTC
+- Commands now start with m! instead of c!, you can still use the old c! for now though
 
 ### Fixed
 
 - Now it sends the message in the channel the user spoke in not the first channel in the list
+- Fixed the system file configuration in docs/service.md
+
+### Removed
+
+- Removed the "-v" command line argument which then removes argparse as a dependency
 
 ## [1.0.1+snapshot25w25a] - 2025-06-11
 

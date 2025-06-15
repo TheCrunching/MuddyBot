@@ -3,7 +3,7 @@
 
 import re
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Twitch API module import
 from twitchio.ext import commands
@@ -11,20 +11,31 @@ from twitchio.ext import commands
 # Crypto module
 from cryptography.fernet import Fernet, InvalidToken
 
-from .words import words
-from .files import CHAT_LOG_FILE
+from .words import word_list
+from .files import getChatLogFile
 from .logger import logger, LOGGING_DATE_FORMAT
 
 # Set up logger for twitch chat
 chatLogger = logging.getLogger(__name__)
-chatFileHandler = logging.FileHandler(CHAT_LOG_FILE, encoding="UTF-8", mode="a")
-chatFileHandler.setFormatter(
-    logging.Formatter(
-        fmt="[%(asctime)s] %(message)s",
-        datefmt=LOGGING_DATE_FORMAT
+CHAT_LOG_FILE = getChatLogFile()
+def setUpFileHandlerForChatLogger():
+    """Generates the file handler
+
+    Returns:
+        The file handler
+    """
+    chat_file_handler = logging.FileHandler(CHAT_LOG_FILE, encoding="UTF-8")
+    chat_file_handler.setFormatter(
+        logging.Formatter(
+            fmt="[%(asctime)s] %(message)s",
+            datefmt=LOGGING_DATE_FORMAT
+        )
     )
-)
-chatLogger.addHandler(chatFileHandler)
+
+    return chat_file_handler
+
+cFileHandler = setUpFileHandlerForChatLogger()
+chatLogger.addHandler(cFileHandler)
 chatLogger.level = logging.INFO
 
 class TwitchBot(commands.Bot):
@@ -33,20 +44,24 @@ class TwitchBot(commands.Bot):
         self.word = None# Set the word as None cause we have not set it yet.
         self.search_word = False# We don't want to start off by searching for the word.
 
-        self.time = datetime.now()
+        self.time = datetime.now(timezone.utc)
         self.key = key
         logger.info("We are online at: '%s'", self.time)
 
         # Initialise our Bot with our access token, prefix and a list of channels to join on boot...
-        super().__init__(token=token, prefix=['c!', "!"], initial_channels=channel)
+        super().__init__(token=token, prefix=['c!', "m!", "!"], initial_channels=channel)
 
     async def event_ready(self):
         """Called when bot is ready"""
-        print(self.connected_channels)
+        logger.debug(self.connected_channels)
         logger.debug("Logged in as '%s' with id '%s'", self.nick, self.user_id)
 
     async def event_message(self, message):
         """Called when a message is sent in twitch chat"""
+        if CHAT_LOG_FILE != getChatLogFile():
+            chatLogger.removeHandler(cFileHandler)
+            cFileHandler = setUpFileHandlerForChatLogger()
+            chatLogger.addHandler(cFileHandler)
         if message.echo:# Messages with echo set to True are messages sent by the bot
             logger.debug("%s: %s", self.nick, message.content)
             chatLogger.info("%s: %s", self.nick, message.content)
@@ -85,7 +100,7 @@ class TwitchBot(commands.Bot):
         """Implements the c!status/!status command"""
 
         await ctx.send(
-            f"Online since: {self.time}. Which is {datetime.now()-self.time} amount of uptime :)"
+            f"Online since: {self.time} which is {datetime.now(timezone.utc)-self.time} amount of uptime :)"
         )
 
     @commands.command()
@@ -133,12 +148,12 @@ class TwitchBot(commands.Bot):
         if ctx.author.is_broadcaster or ((ctx.author.name == "thecrunching123") and __debug__):# Will only let crunching do admin commands if __debug__ is true
             if word is not None:
                 try:
-                    self.word = await decrypt(word, self.key)
+                    self.word = await self.decrypt(word, self.key)
                     self.word = self.word.lower()
                 except InvalidToken:
                     await ctx.reply("Invalid text :) try again.")
                     return None
-                if await find_matches(self.word) > 0:
+                if await self.getMatches(self.word) > 0:
                     await ctx.send(f"{ctx.author.mention} set the word for words on stream :)")
                 else:
                     await ctx.send(f"{ctx.author.mention} their are no matches for the word you set. Set the word anyway.")
@@ -155,38 +170,37 @@ class TwitchBot(commands.Bot):
         if word is None:
             await ctx.reply("You must pass a string to match, eg __pl_")
         else:
-            amountOfWords = await find_matches(word)
-            await ctx.send(f"Found '{amountOfWords}' matches for {word}.")
+            await ctx.send(f"Found '{await self.getMatches(word)}' matches for {word}.")
 
-async def decrypt(text: str, key: str) -> str:
-    """Decrypts the message
+    async def decrypt(self, text: str, key: str) -> str:
+        """Decrypts the message
 
-    Args:
-        text (str): The text
-        key (str): The encryption key
+        Args:
+            text (str): The text
+            key (str): The encryption key
 
-    Returns:
-        str: The decrypted text
-    """
+        Returns:
+            str: The decrypted text
+        """
 
-    return Fernet(key).decrypt(text).decode()
+        return Fernet(key).decrypt(text).decode()
 
-async def find_matches(pattern: str) -> int:
-    """_summary_
+    async def get_matches(self, pattern: str) -> int:
+        """_summary_
 
-    Args:
-        pattern (str): The word pattern
+        Args:
+            pattern (str): The word pattern
 
-    Returns:
-        int: How many words were found
-    """
-    # Replace underscores with regex pattern for any character
-    regex_pattern = pattern.replace('_', '.')
+        Returns:
+            int: How many words were found
+        """
+        # Replace underscores with regex pattern for any character
+        regex_pattern = pattern.replace('_', '.')
 
-    # Compile the regex pattern
-    regex = re.compile(f'^{regex_pattern}$')
+        # Compile the regex pattern
+        regex = re.compile(f'^{regex_pattern}$')
 
-    # Find matches
-    matches = [word for word in words if regex.match(word)]
+        # Find matches
+        matches = [word for word in word_list if regex.match(word)]
 
-    return len(matches)
+        return len(matches)
