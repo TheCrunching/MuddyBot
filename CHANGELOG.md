@@ -170,4 +170,4 @@ _Initial release_
 [1.0.0]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.0
 [1.0.1+snapshot25w25a]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.1+snapshot25w25a
 [1.0.2+snapshot25w25b]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.2+snapshot25w25b
-[1.0.3+snapshot25w25c]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.2+snapshot25w25b
+[1.0.3+snapshot25w25c]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.2+snapshot25w25c
