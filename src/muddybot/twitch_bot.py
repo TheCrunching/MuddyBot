@@ -12,37 +12,16 @@ from twitchio.ext import commands
 from cryptography.fernet import Fernet, InvalidToken
 
 from .words import word_list
-from .files import getChatLogFile
+from .files import get_chat_log_file
 from .logger import logger, LOGGING_DATE_FORMAT
 
 # Set up logger for twitch chat
-chatLogger = logging.getLogger(__name__)
-CHAT_LOG_FILE = getChatLogFile()
-def setUpFileHandlerForChatLogger():
-    """Generates the file handler
-
-    Returns:
-        The file handler
-    """
-    chat_file_handler = logging.FileHandler(CHAT_LOG_FILE, encoding="UTF-8")
-    chat_file_handler.setFormatter(
-        logging.Formatter(
-            fmt="[%(asctime)s] %(message)s",
-            datefmt=LOGGING_DATE_FORMAT
-        )
-    )
-
-    return chat_file_handler
-
-cFileHandler = setUpFileHandlerForChatLogger()
-chatLogger.addHandler(cFileHandler)
-chatLogger.level = logging.INFO
 
 class TwitchBot(commands.Bot):
     """This is are twitch bot!"""
     def __init__(self, token, channel, key):
-        self.word = None# Set the word as None cause we have not set it yet.
-        self.search_word = False# We don't want to start off by searching for the word.
+        self.word = None  # Set the word as None cause we have not set it yet.
+        self.search_word = False  # We don't want to start off by searching for the word.
 
         self.time = datetime.now(timezone.utc)
         self.key = key
@@ -51,24 +30,47 @@ class TwitchBot(commands.Bot):
         # Initialise our Bot with our access token, prefix and a list of channels to join on boot...
         super().__init__(token=token, prefix=['c!', "m!", "!"], initial_channels=channel)
 
+    def setUpFileHandlerForChatLogger(self):
+        """Generates the file handler
+
+        Returns:
+            The file handler
+        """
+
+        self.chat_log_file = get_chat_log_file()
+        chat_file_handler = logging.FileHandler(self.chat_log_file, encoding="UTF-8")
+        chat_file_handler.setFormatter(
+            logging.Formatter(
+                fmt="[%(asctime)s] %(message)s",
+                datefmt=LOGGING_DATE_FORMAT
+            )
+        )
+
+        self.chatLogger.addHandler(chat_file_handler)
+
     async def event_ready(self):
         """Called when bot is ready"""
         logger.debug(self.connected_channels)
         logger.debug("Logged in as '%s' with id '%s'", self.nick, self.user_id)
 
+        self.chatLogger = logging.getLogger(__name__)
+
+
+        self.setUpFileHandlerForChatLogger()
+        self.chatLogger.level = logging.INFO
+
     async def event_message(self, message):
         """Called when a message is sent in twitch chat"""
-        if CHAT_LOG_FILE != getChatLogFile():
-            chatLogger.removeHandler(cFileHandler)
-            cFileHandler = setUpFileHandlerForChatLogger()
-            chatLogger.addHandler(cFileHandler)
-        if message.echo:# Messages with echo set to True are messages sent by the bot
+        if self.chat_log_file != get_chat_log_file():
+            self.chatLogger.removeHandler(self.chatLogger.handlers[0])
+            self.setUpFileHandlerForChatLogger()
+        if message.echo:  # Messages with echo set to True are messages sent by the bot
             logger.debug("%s: %s", self.nick, message.content)
-            chatLogger.info("%s: %s", self.nick, message.content)
+            self.chatLogger.info("%s: %s", self.nick, message.content)
 
             return
 
-        chatLogger.info("%s: '%s'", message.author.name, message.content)
+        self.chatLogger.info("%s: '%s'", message.author.name, message.content)
         logger.debug("%s: %s", message.author.name, message.content)
         if (self.word is not None) and (self.search_word):
             for a in message.content.split(" "):

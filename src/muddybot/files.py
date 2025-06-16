@@ -17,7 +17,14 @@ if not DATA_DIR.exists():
     DATA_DIR.mkdir()
 
 LOG_FILE = Path(DATA_DIR, "muddybot.log")
-def getChatLogFile():
-    return Path(DATA_DIR, f"chat-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.log")
+
+
+def get_chat_log_file():
+    """Generates the log file for chat"""
+    return Path(
+        DATA_DIR,
+        f"chat-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.log"
+    )
+
 
 CONFIG_FILE = Path(DATA_DIR, "config.toml")

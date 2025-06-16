@@ -2,6 +2,12 @@
 
 This is the MuddyBot project changelog! Also the way I version is confusing so its not your fault its mine.
 
+## [1.0.3+snapshot25w25c] - 2025-06-16
+
+### FIXED
+
+- Now logging logs in new log file after 00:00 UTC
+
 ## [1.0.2+snapshot25w25b] - 2025-06-15
 
 This is our first official snapshot for week 25!
@@ -164,3 +170,4 @@ _Initial release_
 [1.0.0]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.0
 [1.0.1+snapshot25w25a]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.1+snapshot25w25a
 [1.0.2+snapshot25w25b]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.2+snapshot25w25b
+[1.0.3+snapshot25w25c]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.2+snapshot25w25b
