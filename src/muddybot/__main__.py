@@ -9,7 +9,7 @@ from .files import CONFIG_FILE
 from .twitch_bot import TwitchBot
 from .logger import logger
 
-__version__ = "1.0.3+snapshot25w25c"
+__version__ = "1.0.4+snapshot25w25d"
 
 
 def main() -> int:

@@ -48,10 +48,6 @@ This command prints a help message of available commands.
 
 This commands prints the uptime of the program.
 
-### c!unlurk
-
-This command unlurks the user. I was always annoyed their was never a unlurk command in [Mud Flaps twitch chat](https://twitch.tv/mud_flaps123), so I made one.
-
 ### c!start_word and c!stop_word
 
 c!start_word and c!stop_word start and stop words on stream respectfully. These commands can only be run by the broadcaster or a moderator. See [Words on stream](#words-on-stream).

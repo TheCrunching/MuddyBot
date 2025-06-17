@@ -16,7 +16,8 @@ keywords = ["twitch", "chat", "bot", "word"]
 requires-python = ">= 3.8"
 dependencies = [
     "twitchio==2.10.0",
-    "cryptography"
+    "cryptography",
+    "emoji"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",

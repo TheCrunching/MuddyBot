@@ -11,11 +11,12 @@ from twitchio.ext import commands
 # Crypto module
 from cryptography.fernet import Fernet, InvalidToken
 
+from emoji import demojize
+
 from .words import word_list
 from .files import get_chat_log_file
 from .logger import logger, LOGGING_DATE_FORMAT
 
-# Set up logger for twitch chat
 
 class TwitchBot(commands.Bot):
     """This is are twitch bot!"""
@@ -30,7 +31,7 @@ class TwitchBot(commands.Bot):
         # Initialise our Bot with our access token, prefix and a list of channels to join on boot...
         super().__init__(token=token, prefix=['c!', "m!", "!"], initial_channels=channel)
 
-    def setUpFileHandlerForChatLogger(self):
+    def set_up_log_file(self):
         """Generates the file handler
 
         Returns:
@@ -55,22 +56,21 @@ class TwitchBot(commands.Bot):
 
         self.chatLogger = logging.getLogger(__name__)
 
-
-        self.setUpFileHandlerForChatLogger()
+        self.set_up_log_file()
         self.chatLogger.level = logging.INFO
 
     async def event_message(self, message):
         """Called when a message is sent in twitch chat"""
         if self.chat_log_file != get_chat_log_file():
             self.chatLogger.removeHandler(self.chatLogger.handlers[0])
-            self.setUpFileHandlerForChatLogger()
+            self.set_up_log_file()
         if message.echo:  # Messages with echo set to True are messages sent by the bot
             logger.debug("%s: %s", self.nick, message.content)
-            self.chatLogger.info("%s: %s", self.nick, message.content)
+            self.chatLogger.info("%s: %s", self.nick, demojize(message.content))
 
             return
 
-        self.chatLogger.info("%s: '%s'", message.author.name, message.content)
+        self.chatLogger.info("%s: '%s'", message.author.name, demojize(message.content))
         logger.debug("%s: %s", message.author.name, message.content)
         if (self.word is not None) and (self.search_word):
             for a in message.content.split(" "):
@@ -83,9 +83,7 @@ class TwitchBot(commands.Bot):
 
         # Check if user is saying Historic
         if message.first:
-            await message.channel.send(
-                f"Welcome {message.author.mention}, we are glad you are here :)"
-            )
+            logger.debug("User %s just typed their first message which is %s", message.author.name, message.content)
 
         # Since we have commands and are overriding the default `event_message`
         # We must let the bot know we want to handle and invoke our commands...
@@ -104,13 +102,6 @@ class TwitchBot(commands.Bot):
         await ctx.send(
             f"Online since: {self.time} which is {datetime.now(timezone.utc)-self.time} amount of uptime :)"
         )
-
-    @commands.command()
-    async def unlurk(self, ctx: commands.Context):
-        """Implements the c!unlurk/!unlurk command, honestly why was'nt this a thing?"""
-
-        if ctx.author.name == "thecrunching123":
-            await ctx.send(f"{ctx.author.name} has unlurked themselves. Thank you for the unlurk 😄")
 
     @commands.command()
     async def start_word(self, ctx: commands.Context):
