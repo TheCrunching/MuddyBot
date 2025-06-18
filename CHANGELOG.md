@@ -2,6 +2,14 @@
 
 This is the MuddyBot project changelog! Also the way I version is confusing so its not your fault its mine.
 
+## [1.0.5+snapshot25w25e] - 2025-06-18
+
+Commands starting with c! and ! will be deprecated in version 1.1.0
+
+### Fixed
+
+- Fixed the m!find_matches command
+
 ## [1.0.4+snapshot25w25d] - 2025-06-17
 
 ### Added
@@ -183,3 +191,4 @@ _Initial release_
 [1.0.2+snapshot25w25b]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.2+snapshot25w25b
 [1.0.3+snapshot25w25c]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.3+snapshot25w25c
 [1.0.4+snapshot25w25d]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.4+snapshot25w25d
+[1.0.5+snapshot25w25e]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.5+snapshot25w25e

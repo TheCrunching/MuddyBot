@@ -13,11 +13,13 @@ fileHandler = logging.FileHandler(LOG_FILE, encoding="UTF-8")  # Set up file han
 fileHandler.setFormatter(formatter)  # Add the formatter
 logger.addHandler(fileHandler)  # Add it to logger
 
+# Console handler
+consoleHandler = logging.StreamHandler()  # Set up stream handler
+consoleHandler.setFormatter(formatter)  # Apply the formatter
+logger.addHandler(consoleHandler)  # Add the handler
+
 # ! ONLY FOR DEBUG PURPOSES
 if __debug__:
-    consoleHandler = logging.StreamHandler()  # Set up stream handler
-    consoleHandler.setFormatter(formatter)  # Apply the formatter
-    logger.addHandler(consoleHandler)  # Add the handler
     logger.level = logging.DEBUG  # Set level to debug
 else:
     logger.level = logging.INFO  # Set level to info

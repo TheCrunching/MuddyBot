@@ -93,7 +93,7 @@ class TwitchBot(commands.Bot):
     async def help(self, ctx: commands.Context):
         """Implements the c!help/!help command, help messages are a must have."""
 
-        await ctx.send("Commands: c!help, c!status, !unlurk, c!find_matches <word>. Moderator only: c!start_word, c!stop_word, Admin only: c!set_word <word> (encrypted ofc)")# Help command
+        await ctx.send("Commands: m!help, m!status, m!find_matches <word>. Moderator only: c!start_word, c!stop_word, Admin only: c!set_word <word> (encrypted ofc)")# Help command
 
     @commands.command()
     async def status(self, ctx: commands.Context):
@@ -163,7 +163,7 @@ class TwitchBot(commands.Bot):
         if word is None:
             await ctx.reply("You must pass a string to match, eg __pl_")
         else:
-            await ctx.send(f"Found '{await self.getMatches(word)}' matches for {word}.")
+            await ctx.send(f"Found '{await self.get_matches(word)}' matches for {word}.")
 
     async def decrypt(self, text: str, key: str) -> str:
         """Decrypts the message
