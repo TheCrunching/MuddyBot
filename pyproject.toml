@@ -39,12 +39,12 @@ maintainers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/TheCrunching/python-twitch-bot"
+Homepage = "https://github.com/TheCrunching/MuddyBot"
 Download = "https://github.com/TheCrunching/MuddyBot/releases"
-Changelog = "https://github.com/TheCrunching/python-twitch-bot/blob/main/CHANGELOG.md"
-Documentation = "https://github.com/TheCrunching/python-twitch-bot/blob/main/README.md"
+Changelog = "https://github.com/TheCrunching/MuddyBot/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/TheCrunching/MuddyBot/blob/main/README.md"
 Bug = "https://github.com/TheCrunching/MuddyBot/issues"
-repository = "https://github.com/TheCrunching/python-twitch-bot"
+repository = "https://github.com/TheCrunching/MuddyBot"
 
 [project.scripts]
 muddybot = "muddybot.__main__:main"

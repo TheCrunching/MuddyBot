@@ -5,13 +5,11 @@ import re
 import logging
 from datetime import datetime, timezone
 
-# Twitch API module import
-from twitchio.ext import commands
+from twitchio.ext import commands  # Twitch API module import
 
-# Crypto module
-from cryptography.fernet import Fernet, InvalidToken
+from cryptography.fernet import Fernet, InvalidToken  # Crypto module
 
-from emoji import demojize
+from emoji import demojize  # Emoji module import
 
 from .words import word_list
 from .files import get_chat_log_file
@@ -28,15 +26,18 @@ class TwitchBot(commands.Bot):
         self.key = key
         logger.info("We are online at: '%s'", self.time)
 
+        self.chatLogger = logging.getLogger(__name__)
+
+        self.set_up_log_file()
+        self.chatLogger.level = logging.INFO
+
+        logger.debug("Set up chat log file.")
+
         # Initialise our Bot with our access token, prefix and a list of channels to join on boot...
-        super().__init__(token=token, prefix=['c!', "m!", "!"], initial_channels=channel)
+        super().__init__(token=token, prefix=["m!"], initial_channels=channel)
 
     def set_up_log_file(self):
-        """Generates the file handler
-
-        Returns:
-            The file handler
-        """
+        """Generates the file handler"""
 
         self.chat_log_file = get_chat_log_file()
         chat_file_handler = logging.FileHandler(self.chat_log_file, encoding="UTF-8")
@@ -53,11 +54,6 @@ class TwitchBot(commands.Bot):
         """Called when bot is ready"""
         logger.debug(self.connected_channels)
         logger.debug("Logged in as '%s' with id '%s'", self.nick, self.user_id)
-
-        self.chatLogger = logging.getLogger(__name__)
-
-        self.set_up_log_file()
-        self.chatLogger.level = logging.INFO
 
     async def event_message(self, message):
         """Called when a message is sent in twitch chat"""
@@ -91,13 +87,13 @@ class TwitchBot(commands.Bot):
 
     @commands.command()
     async def help(self, ctx: commands.Context):
-        """Implements the c!help/!help command, help messages are a must have."""
+        """Implements the m!help command, help messages are a must have."""
 
-        await ctx.send("Commands: m!help, m!status, m!find_matches <word>. Moderator only: c!start_word, c!stop_word, Admin only: c!set_word <word> (encrypted ofc)")# Help command
+        await ctx.send("Commands: m!help, m!status, m!find_matches <word>. Moderator only: m!start_word, m!stop_word, Admin only: m!set_word <word> (encrypted ofc), Bot is (c) TheCrunching")# Help command
 
     @commands.command()
     async def status(self, ctx: commands.Context):
-        """Implements the c!status/!status command"""
+        """Implements the m!status command"""
 
         await ctx.send(
             f"Online since: {self.time} which is {datetime.now(timezone.utc)-self.time} amount of uptime :)"
@@ -105,7 +101,7 @@ class TwitchBot(commands.Bot):
 
     @commands.command()
     async def start_word(self, ctx: commands.Context):
-        """Implements the c!start_word/!start_word command, this is the main purpose of this bot and is why I made it."""
+        """Implements the m!start_word command, this is the main purpose of this bot and is why I made it."""
 
         if ctx.author.is_mod or ctx.author.is_broadcaster or ((ctx.author.name == "thecrunching123") and __debug__):
             if self.word is None:
@@ -123,7 +119,7 @@ class TwitchBot(commands.Bot):
 
     @commands.command()
     async def stop_word(self, ctx: commands.Context):
-        """Implements the c!stop_word/!stop_word command, this is the main purpose of this bot and is why I made it."""
+        """Implements the m!stop_word command, this is the main purpose of this bot and is why I made it."""
 
         if ctx.author.is_mod or ctx.author.is_broadcaster or ((ctx.author.name == "thecrunching123") and __debug__):
             if self.search_word:
@@ -141,7 +137,7 @@ class TwitchBot(commands.Bot):
         if ctx.author.is_broadcaster or ((ctx.author.name == "thecrunching123") and __debug__):# Will only let crunching do admin commands if __debug__ is true
             if word is not None:
                 try:
-                    self.word = await self.decrypt(word, self.key)
+                    self.word = await self.decrypt(word)
                     self.word = self.word.lower()
                 except InvalidToken:
                     await ctx.reply("Invalid text :) try again.")
@@ -163,9 +159,18 @@ class TwitchBot(commands.Bot):
         if word is None:
             await ctx.reply("You must pass a string to match, eg __pl_")
         else:
-            await ctx.send(f"Found '{await self.get_matches(word)}' matches for {word}.")
+            # Replace underscores with regex pattern for any character
+            regex_pattern = word.replace('_', '.')
 
-    async def decrypt(self, text: str, key: str) -> str:
+            # Compile the regex pattern
+            regex = re.compile(f'^{regex_pattern}$')
+
+            # Find matches
+            matches = [word for word in word_list if regex.match(word)]
+
+            await ctx.send(f"Found '{len(matches)}' matches for {word}.")
+
+    async def decrypt(self, text: str) -> str:
         """Decrypts the message
 
         Args:
@@ -176,24 +181,4 @@ class TwitchBot(commands.Bot):
             str: The decrypted text
         """
 
-        return Fernet(key).decrypt(text).decode()
-
-    async def get_matches(self, pattern: str) -> int:
-        """_summary_
-
-        Args:
-            pattern (str): The word pattern
-
-        Returns:
-            int: How many words were found
-        """
-        # Replace underscores with regex pattern for any character
-        regex_pattern = pattern.replace('_', '.')
-
-        # Compile the regex pattern
-        regex = re.compile(f'^{regex_pattern}$')
-
-        # Find matches
-        matches = [word for word in word_list if regex.match(word)]
-
-        return len(matches)
+        return Fernet(self.key).decrypt(text).decode()

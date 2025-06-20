@@ -2,6 +2,22 @@
 
 This is the MuddyBot project changelog! Also the way I version is confusing so its not your fault its mine.
 
+## [1.1.0-rc1] - 2025-06-20
+
+If no major bugs are found this will become version 1.1.0
+
+### Added
+
+- Added a copyright in the m!help command
+
+### Changed
+
+- Changed c! to m! in the m!help commands
+
+### Removed
+
+- Removed c! and ! commands
+
 ## [1.0.5+snapshot25w25e] - 2025-06-18
 
 Commands starting with c! and ! will be deprecated in version 1.1.0
@@ -192,3 +208,4 @@ _Initial release_
 [1.0.3+snapshot25w25c]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.3+snapshot25w25c
 [1.0.4+snapshot25w25d]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.4+snapshot25w25d
 [1.0.5+snapshot25w25e]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.5+snapshot25w25e
+[1.1.0-rc1]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.1.0-rc1
