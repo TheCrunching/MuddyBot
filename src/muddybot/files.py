@@ -13,10 +13,11 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 DATA_DIR = Path(Path.home(), ".muddybot/")
-if not DATA_DIR.exists():
-    DATA_DIR.mkdir()
-
 LOG_FILE = Path(DATA_DIR, "muddybot.log")
+CONFIG_FILE = Path(DATA_DIR, "config.toml")
+
+if not DATA_DIR.exists():  # Make sure log dir exists
+    DATA_DIR.mkdir()  # If it does not exist create it
 
 
 def get_chat_log_file():
@@ -25,6 +26,3 @@ def get_chat_log_file():
         DATA_DIR,
         f"chat-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.log"
     )
-
-
-CONFIG_FILE = Path(DATA_DIR, "config.toml")

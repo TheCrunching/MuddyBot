@@ -38,30 +38,30 @@ The key field holds the encryption key for securely getting the word to the bot 
 
 This section describes the available commands for the twitch bot.
 
-All commands can be called `c!command` or `!command` it is up to the user to decide on which to use.
+All the commands start with m!<command>.
 
-### c!help
+### m!help
 
 This command prints a help message of available commands.
 
-### c!status
+### m!status
 
 This commands prints the uptime of the program.
 
-### c!start_word and c!stop_word
+### m!start_word and m!stop_word
 
-c!start_word and c!stop_word start and stop words on stream respectfully. These commands can only be run by the broadcaster or a moderator. See [Words on stream](#words-on-stream).
+m!start_word and m!stop_word start and stop words on stream respectfully. These commands can only be run by the broadcaster or a moderator. See [Words on stream](#words-on-stream).
 
-### c!set_word word
+### m!set_word word
 
 Sets the word for words on stream. The word must be encrypted with the same encryption key the program is using.
 
-### c!find_matches pattern
+### m!find_matches pattern
 
 Finds how many words match the specified pattern. The pattern has the letters you know and the letters you don't as '_'. eg (a_ple) would match apple.
 
 ## Words on stream
 
-Words on stream is something Mud Flaps does in his stream. Every 30 minutes he reveals a letter and his chat has to guess the word. This bot was made to help with that and find the word. You use `c!start_word` to start words on stream and `c!stop_word` to stop words on stream. If the user correctly guess's the word the bot will alert the user that they guessed it correctly and stop words on stream.
+Words on stream is something Mud Flaps does in his stream. Every 30 minutes he reveals a letter and his chat has to guess the word. This bot was made to help with that and find the word. You use `m!start_word` to start words on stream and `m!stop_word` to stop words on stream. If the user correctly guess's the word the bot will alert the user that they guessed it correctly and stop words on stream.
 
-Words on stream can't be started until the word has been set with `c!set_word word`.
+Words on stream can't be started until the word has been set with `m!set_word word`.

@@ -9,7 +9,7 @@ from .files import CONFIG_FILE
 from .twitch_bot import TwitchBot
 from .logger import logger
 
-__version__ = "1.1.0-rc1"
+__version__ = "1.1.0"
 
 
 def main() -> int:
@@ -49,7 +49,7 @@ def main() -> int:
         logger.critical("Config file: '%s' not found.", CONFIG_FILE)
         return 1  # Return with exit code 1
 
-    bot = TwitchBot(token, channel, key)  # If we did'nt fail at all we run the twitch bot
+    bot = TwitchBot(token, channel, key)  # If we did'nt fail run the twitch bot
     bot.run()  # Run it
 
     return 0  # ? Our installer script will handle exiting.

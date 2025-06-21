@@ -155,7 +155,7 @@ class TwitchBot(commands.Bot):
 
     @commands.command()
     async def find_matches(self, ctx: commands.Context, word: str = None):
-        """Implements the c!find_matches command"""
+        """Implements the m!find_matches command"""
         if word is None:
             await ctx.reply("You must pass a string to match, eg __pl_")
         else:

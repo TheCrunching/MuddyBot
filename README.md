@@ -11,3 +11,7 @@ Clone this repository and run `python3 -m build` in the same directory as the **
 ## Security
 
 All secrets are put in config files to mitigate the risk of me accidentally committing them to the repository.
+
+## Contributing
+
+If you would like to help contribute look at ***TODO.md*** for things that need to be done.

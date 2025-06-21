@@ -2,6 +2,36 @@
 
 This is the MuddyBot project changelog! Also the way I version is confusing so its not your fault its mine.
 
+## [1.1.0] - 2025-06-21
+
+Well version 1.1.0 is here now!
+
+### Changed
+
+- Documentation now updated to version 1.1.0
+- We have deprecated commands starting with c! and !.
+- Emojis are now removed from log files and replaced with their name.
+- Now logging logs in new log file after 00:00 UTC
+- Now append log messages to the log file
+- Now shows date and time in UTC
+- Now it sends the message in the channel the user spoke in not the first channel in the list
+
+### Fixed
+
+- Fixed the system file configuration in docs/service.md
+
+### Removed
+
+- Removed the "-v" command line argument which then removes argparse as a dependency
+- Removed c!hello command
+- Removed --version option since that was kinda redundant
+- Removed unnecessary `if __name__ == "__main__:` since I never used them
+- Removed the c!mud_curses command
+- Removed the c!send_love command
+- Removed the !song command
+- Removed the !unlurk command
+- Removed the welcome message for users
+
 ## [1.1.0-rc1] - 2025-06-20
 
 If no major bugs are found this will become version 1.1.0
@@ -195,17 +225,18 @@ This is our first prerelease of version [1.0.0](#100---2025-06-09). Also because
 
 _Initial release_
 
-[0.1.0]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v0.1.0
-[0.1.1+snapshot25w23a]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v0.1.1+snapshot25w23a
-[0.1.2+snapshot25w23b]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v0.1.2+snapshot25w23b
-[0.1.3+snapshot25w24a]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v0.1.3+snapshot25w24a
-[1.0.0+pre1]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.0+pre1
-[1.0.0+pre2]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.0+pre2
-[1.0.0-rc1]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.0-rc1
-[1.0.0]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.0
-[1.0.1+snapshot25w25a]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.1+snapshot25w25a
-[1.0.2+snapshot25w25b]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.2+snapshot25w25b
-[1.0.3+snapshot25w25c]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.3+snapshot25w25c
-[1.0.4+snapshot25w25d]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.4+snapshot25w25d
-[1.0.5+snapshot25w25e]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.0.5+snapshot25w25e
-[1.1.0-rc1]: https://github.com/TheCrunching/python-twitch-bot/releases/tag/v1.1.0-rc1
+[0.1.0]: https://github.com/TheCrunching/MuddyBot/releases/tag/v0.1.0
+[0.1.1+snapshot25w23a]: https://github.com/TheCrunching/MuddyBot/releases/tag/v0.1.1+snapshot25w23a
+[0.1.2+snapshot25w23b]: https://github.com/TheCrunching/MuddyBot/releases/tag/v0.1.2+snapshot25w23b
+[0.1.3+snapshot25w24a]: https://github.com/TheCrunching/MuddyBot/releases/tag/v0.1.3+snapshot25w24a
+[1.0.0+pre1]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.0.0+pre1
+[1.0.0+pre2]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.0.0+pre2
+[1.0.0-rc1]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.0.0-rc1
+[1.0.0]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.0.0
+[1.0.1+snapshot25w25a]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.0.1+snapshot25w25a
+[1.0.2+snapshot25w25b]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.0.2+snapshot25w25b
+[1.0.3+snapshot25w25c]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.0.3+snapshot25w25c
+[1.0.4+snapshot25w25d]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.0.4+snapshot25w25d
+[1.0.5+snapshot25w25e]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.0.5+snapshot25w25e
+[1.1.0-rc1]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.1.0-rc1
+[1.1.0]: https://github.com/TheCrunching/MuddyBot/releases/tag/v1.1.0
